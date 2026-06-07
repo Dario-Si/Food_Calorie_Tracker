@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Statistika kalorija</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/bootstrap.min.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/style.css') }}"
+    >
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow-sm mb-5">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            🍎 Food Calorie Tracker
+        </span>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1 class="text-center mb-4">
+        Statistika kalorija
+    </h1>
+
+    {% if selected_date %}
+        <div class="alert alert-info text-center">
+            Statistika za datum: {{ selected_date }}
+        </div>
+    {% endif %}
+
+    <div class="row text-center mb-5">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 p-4">
+                <h5>Ukupno kalorija</h5>
+                <h2>{{ total_calories }} kcal</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 p-4">
+                <h5>Broj unosa</h5>
+                <h2>{{ number_of_entries }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 p-4">
+                <h5>Prosjek</h5>
+                <h2>{{ average_calories }} kcal</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0 p-4 mb-4">
+
+        <form method="POST" class="mb-4">
+
+            <label class="form-label">
+                Unesi dnevni cilj kalorija
+            </label>
+
+            <input
+                type="number"
+                name="goal"
+                value="{{ goal }}"
+                class="form-control mb-3"
+                min="1"
+                required
+            >
+
+            <label class="form-label">
+                Odaberi datum
+            </label>
+
+            <input
+                type="date"
+                name="selected_date"
+                value="{{ selected_date }}"
+                class="form-control"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary mt-3"
+            >
+                Prikaži statistiku
+            </button>
+
+        </form>
+
+        <h4>Dnevni cilj: {{ goal }} kcal</h4>
+        {% if total_calories > goal %}
+
+        <div class="alert alert-danger">
+
+         Prekoračio si dnevni cilj za
+        {{ total_calories - goal }} kcal.
+
+        </div>
+
+        {% else %}
+
+        <div class="alert alert-success">
+
+        Još možeš unijeti
+        {{ goal - total_calories }} kcal.
+
+        </div>
+
+        {% endif %}
+        <div class="progress mb-4">
+            <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: {{ progress }}%"
+                aria-valuenow="{{ progress }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+                {{ total_calories }} / {{ goal }} kcal
+            </div>
+        </div>
+
+        {% if total_calories > 0 %}
+            <canvas id="calorieChart"></canvas>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                Nema kalorijskih unosa za prikaz grafa.
+            </div>
+        {% endif %}
+
+    </div>
+
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+        Natrag na početnu
+    </a>
+
+</div>
+
+<script src="{{ url_for('static', filename='Javascript/chart.umd.js') }}"></script>
+
+{% if total_calories > 0 %}
+<script>
+    const ctx = document.getElementById('calorieChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ dates | tojson }},
+            datasets: [{
+                label: 'Kalorije po danima',
+                data: {{ calories | tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderRadius: 10,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        afterLabel: function(context) {
+                            let kalorije = context.raw;
+                            let cilj = {{ goal }};
+
+                            return [
+                                'Dnevni cilj: ' + cilj + ' kcal',
+                                'Preostalo: ' + Math.max(cilj - kalorije, 0) + ' kcal'
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+
+</body>
+</html>

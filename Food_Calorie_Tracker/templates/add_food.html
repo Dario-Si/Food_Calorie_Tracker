@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj hranu</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/bootstrap.min.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/style.css') }}"
+    >
+  
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow-sm mb-5">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            🍎 Food Calorie Tracker
+        </span>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 p-4">
+
+                <h1 class="text-center mb-4">
+                    Dodaj hranu
+                </h1>
+
+                <form method="POST">
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="npr. Banana"
+                        class="form-control mb-3"
+                        maxlength="100"
+                        required
+                >
+
+                   <input
+                        type="number"
+                        name="calories"
+                        placeholder="Kalorije"
+                        class="form-control mb-3"
+                        min="1"
+                        required
+                    >
+
+                    <input
+                        type="date"
+                        name="date"
+                        class="form-control mb-3"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+                        Spremi
+                    </button>
+
+                </form>
+
+               <a href="{{ url_for('home') }}"
+                class="btn btn-outline-secondary mt-3">
+                 Natrag
+            </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

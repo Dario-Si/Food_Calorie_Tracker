@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Uredi hranu</title>
+
+  
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/bootstrap.min.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/style.css') }}"
+    >
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-dark shadow-sm mb-5">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            🍎 Food Calorie Tracker
+        </span>
+    </div>
+</nav>
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 p-4">
+
+                <h1 class="text-center mb-4">
+                    Uredi unos hrane
+                </h1>
+
+                <form method="POST">
+
+                    <label class="form-label">
+                        Naziv hrane
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ food.name }}"
+                        maxlength="100"
+                        class="form-control"
+                        required
+                    >
+
+                    <br>
+
+                    <label class="form-label">
+                        Kalorije
+                    </label>
+
+                    <input
+                        type="number"
+                        name="calories"
+                        value="{{ food.calories }}"
+                        min="1"
+                        class="form-control"
+                        required
+                    >
+
+                    <br>
+
+                    <label class="form-label">
+                        Datum
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        value="{{ food.date }}"
+                        class="form-control"
+                        required
+                    >
+
+                    <br>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+                        Spremi promjene
+                    </button>
+
+                </form>
+
+                <a href="{{ url_for('home') }}"
+                   class="btn btn-outline-secondary mt-3">
+                    Natrag
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

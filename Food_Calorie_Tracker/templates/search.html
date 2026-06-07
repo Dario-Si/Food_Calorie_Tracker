@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Filtriraj po datumu</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/bootstrap.min.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='CSS/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow-sm mb-5">
+    <div class="container">
+
+        <span class="navbar-brand mb-0 h1">
+            🍎 Food Calorie Tracker
+        </span>
+
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm border-0 p-4 mb-4">
+
+                <h1 class="text-center mb-4">
+                    Filtriraj unose po datumu
+                </h1>
+
+                <form method="POST">
+
+                    <div class="input-group">
+
+                        <input
+                            type="date"
+                            name="date"
+                            class="form-control"
+                            value="{{ selected_date }}"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Pretraži
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <a href="{{ url_for('home') }}"
+                   class="btn btn-outline-secondary mt-3">
+
+                    Natrag na početnu
+
+                </a>
+
+            </div>
+
+            {% if selected_date %}
+
+            <h3 class="mb-4">
+                Rezultati za datum:
+                {{ selected_date }}
+            </h3>
+
+            {% endif %}
+
+            {% if foods %}
+
+            <div class="row">
+
+                {% for food in foods %}
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm border-0 h-100">
+
+                        <div class="card-body">
+
+                            <h4 class="fw-bold">
+                                🍔 {{ food.name }}
+                            </h4>
+
+                            <p class="text-muted">
+                                Datum: {{ food.date }}
+                            </p>
+
+                            <h5 class="text-primary">
+                                {{ food.calories }} kcal
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% elif selected_date %}
+
+            <div class="alert alert-warning text-center">
+                Nema unosa za odabrani datum.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
