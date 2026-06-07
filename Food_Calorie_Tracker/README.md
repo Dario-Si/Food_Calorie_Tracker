@@ -26,11 +26,16 @@ Skidanje koda s GitHub-a:
 
 cd ~/Downloads
 
+https://github.com/Dario-Si/Food_Calorie_Tracker.git
 
-cd Food_Clorie_Tracker
+cd Food_Calorie_Tracker
 
 ### Docker 
 
+Pokretanje dockera
+
 docker build -t food-calorie-tracker .
+
 docker run -p 5000:5000 food-calorie-tracker
+
 http://localhost:5000
